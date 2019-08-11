@@ -26,9 +26,11 @@ class Users extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="row">
         {this.state.users.map(user => (
-          <UserItem key={user.id} user={user} />
+          <div className="col-md-4">
+            <UserItem key={user.id} user={user} />
+          </div>
         ))}
       </div>
     );
