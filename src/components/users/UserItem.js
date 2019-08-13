@@ -6,7 +6,7 @@ const UserItem = ({ user: { login, html_url, avatar_url } }) => {
   // const { login, html_url, avatar_url } = props.user;
 
   return (
-    <div className=" container center card mt-3">
+    <div className=" container center card">
       <img
         src={avatar_url}
         alt="avatar img"
@@ -15,9 +15,12 @@ const UserItem = ({ user: { login, html_url, avatar_url } }) => {
       />
       <h3>{login}</h3>
       <div>
-        <a href={html_url} className="btn btn-dark mb-2">
+        <button
+          className="btn btn-dark mb-2"
+          onClick={() => window.open(html_url, "_blank")}
+        >
           Visit link
-        </a>
+        </button>
       </div>
     </div>
   );
