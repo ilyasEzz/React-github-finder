@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { yieldExpression } from "@babel/types";
+import PropTypes from "prop-types";
 
 class Search extends Component {
   state = {
@@ -15,6 +15,8 @@ class Search extends Component {
   };
 
   render() {
+    const { text } = this.state;
+    const { clearUsers, showClear } = this.props;
     return (
       <div>
         <form className="m-3" onSubmit={this.onSubmit}>
@@ -23,16 +25,33 @@ class Search extends Component {
             name="text"
             className="form-control"
             placeholder="search for a user..."
-            value={this.state.text}
+            value={text}
             onChange={this.onChange}
           />
-          <button type="submit" className="btn btn-block btn-dark my-2">
-            search
+          <button
+            type="submit"
+            className="btn btn-block btn-dark my-2"
+            disabled={text === ""}
+          >
+            Search
           </button>
         </form>
+        {showClear && (
+          <div className="m-3">
+            <button className=" btn btn-block btn-info  " onClick={clearUsers}>
+              Clear
+            </button>
+          </div>
+        )}
       </div>
     );
   }
+
+  static propType = {
+    searchUsers: PropTypes.func.isRequired,
+    clearUsers: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
+  };
 }
 
 export default Search;
