@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 
 const UserItem = ({ user: { login, html_url, avatar_url } }) => {
@@ -14,14 +16,10 @@ const UserItem = ({ user: { login, html_url, avatar_url } }) => {
         style={{ width: "100px" }}
       />
       <h3>{login}</h3>
-      <div>
-        <button
-          className="btn btn-dark mb-2"
-          onClick={() => window.open(html_url, "_blank")}
-        >
-          Visit link
-        </button>
-      </div>
+
+      <Link to={`user/${login}`} className="btn btn-dark mb-2">
+        Visit link
+      </Link>
     </div>
   );
 };
