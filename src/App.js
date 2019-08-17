@@ -14,7 +14,8 @@ class App extends Component {
     users: [],
     user: {},
     loading: false,
-    alert: null
+    alert: null,
+    repos: []
   };
 
   // Search Github Users
@@ -32,12 +33,25 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
-  // Single Github User
-  getUser = async username => {
+  // get resent repositories
+  getUserRepos = async login => {
     this.setState({ loading: true });
 
     const res = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${
+      `https://api.github.com/users/${login}/repos?per_page=5&sort=created:asc&client_id=${
+        process.env.REACT_APP_GITHUB_CLIENT_ID
+      }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ repos: res.data, loading: false });
+  };
+
+  // Single Github User
+  getUser = async login => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${login}?client_id=${
         process.env.REACT_APP_GITHUB_CLIENT_ID
       }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
@@ -56,7 +70,7 @@ class App extends Component {
 
   render() {
     // Destructuring in class based components must be ib "render" before "return"
-    const { users, loading, user } = this.state;
+    const { users, loading, user, repos } = this.state;
     return (
       <Router>
         <div className="App ">
@@ -87,6 +101,8 @@ class App extends Component {
                   <User
                     {...props}
                     getUser={this.getUser}
+                    getUserRepos={this.getUserRepos}
+                    repos={repos}
                     user={user}
                     loading={loading}
                   />

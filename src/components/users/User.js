@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Spinner from "../Layout/Spinner";
+import Repos from "../repos/Repos";
 
 export class User extends Component {
   componentDidMount() {
-    // <Router/> is high order component and injects "match", "location" and "history" into the components he wraps
+    // <Router/> is high order component that injects "match", "location" and "history" into the components he wraps
     // "params" object from "match" brings the "login" info that was passed into the component.
     // passed to him by  path="/user/:login"
     this.props.getUser(this.props.match.params.login);
-    console.log(this.props);
+    this.props.getUserRepos(this.props.match.params.login);
   }
 
   render() {
@@ -28,12 +30,16 @@ export class User extends Component {
       public_gists,
       hireable
     } = this.props.user;
-    const { loading } = this.props;
+
+    const { loading, repos } = this.props;
+
+    // if the page is loading
     if (loading) return <Spinner />;
+    // else
     return (
       <Fragment>
         <Link to="/" className="btn btn-secondary my-4 mx-2">
-          Back to search
+          <i class="fas fa-angle-double-left" /> Back to search
         </Link>
         Hireable:{" "}
         {hireable ? (
@@ -59,7 +65,11 @@ export class User extends Component {
                 <p className="center">{bio}</p>
               </Fragment>
             )}
-            <a href={html_url} className="btn btn-outline-info my-2">
+            <a
+              href={html_url}
+              target="_blank"
+              className="btn btn-outline-info my-2"
+            >
               Visit Github Profile
             </a>
             <ul className="list-group ">
@@ -90,9 +100,18 @@ export class User extends Component {
             </li>
           </ul>
         </div>
+        <Repos repos={repos} />
       </Fragment>
     );
   }
+
+  // Types validation
+  static propTypes = {
+    loading: PropTypes.bool,
+    getUser: PropTypes.func.isRequired,
+    getUserRepos: PropTypes.func.isRequired,
+    repos: PropTypes.array.isRequired
+  };
 }
 
 export default User;
