@@ -67,6 +67,7 @@ const User = ({ user, getUser, getUserRepos, loading, repos, match }) => {
           <a
             href={html_url}
             target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-outline-info my-2"
           >
             Visit Github Profile
