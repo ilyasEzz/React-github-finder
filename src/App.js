@@ -4,13 +4,15 @@ import axios from "axios";
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/Search';
+import Alert from './components/layout/Alert';
 
 
 
 class App extends Component {
   state = {
     users: [],
-    loading: true
+    loading: true,
+    showAlert: false
   }
 
 
@@ -23,11 +25,18 @@ class App extends Component {
 
 
   searchUsers = async text => {
-    this.setState({ loading: true })
+    if (text !== '') {
+      this.setState({ loading: true, showAlert: false })
 
-    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}}`)
+      const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}}`)
 
-    this.setState({ users: res.data.items, loading: false });
+      this.setState({ users: res.data.items, loading: false });
+    }
+    else {
+      this.setState({ showAlert: true });
+      setTimeout(() => this.setState({ showAlert: false }), 5000);
+    }
+
   }
 
   clearUsers = () => this.setState({ users: [] });
@@ -40,6 +49,8 @@ class App extends Component {
         <Navbar />
 
         <div className="container">
+          {this.state.showAlert && (<Alert />)}
+
           <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={users.length > 0 ? true : false} />
           <Users users={users} loading={loading} />
         </div>
