@@ -16,7 +16,7 @@ export class Navbar extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-bg-dark bg-success">
+            <nav className="navbar navbar-bg-dark bg-success mb-4">
                 <a href="#" className="navbar-brand text-white">
                     <i className={this.props.icon}></i> {this.props.title}
                 </a>
