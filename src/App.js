@@ -3,6 +3,7 @@ import axios from "axios";
 
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import Search from './components/Search';
 
 
 
@@ -23,7 +24,11 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <Users users={this.state.users} loading={this.state.loading} />
+
+        <div className="container">
+          <Search />
+          <Users users={this.state.users} loading={this.state.loading} />
+        </div>
       </React.Fragment>
     );
   }
