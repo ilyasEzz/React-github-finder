@@ -7,6 +7,7 @@ import Users from './components/users/Users';
 import Search from './components/Search';
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
+import User from './components/users/User';
 
 
 
@@ -14,7 +15,8 @@ class App extends Component {
   state = {
     users: [],
     loading: true,
-    showAlert: false
+    showAlert: false,
+    user: {},
   }
 
 
@@ -25,7 +27,7 @@ class App extends Component {
     this.setState({ users: res.data, loading: false });
   }
 
-
+  // Using the Search bar
   searchUsers = async text => {
     if (text !== '') {
       this.setState({ loading: true, showAlert: false })
@@ -43,9 +45,23 @@ class App extends Component {
 
   clearUsers = () => this.setState({ users: [] });
 
+  // Get information about the user
+  getUser = async user => {
+    this.setState({ loading: true, });
+
+    const res = await axios.get(`https://api.github.com/users/${user}?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}}`);
+
+    console.log(res.data);
+
+    this.setState({ user: res.data, loading: false })
+
+
+
+  }
+
 
   render() {
-    const { users, loading } = this.state
+    const { users, user, loading } = this.state
     return (
       <Router>
         <Fragment>
@@ -60,6 +76,9 @@ class App extends Component {
               </div>
             )} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/user/:login" render={props => (
+              <User getUser={this.getUser} loading={loading} user={user}  {...props} />
+            )} />
           </Switch>
 
 
