@@ -29,10 +29,10 @@ export class Search extends Component {
                     <div className="form-group">
                         <input type="text" name="text" value={this.state.text} className="form-control" onChange={this.onChange} />
                     </div>
-                    <input type="submit" value="Search" className="btn btn-block btn-dark" />
+                    <input type="submit" value="Search" className="btn btn-block btn-primary" />
                 </form>
                 {showClear && (
-                    <button className="btn btn-block btn-warning text-white my-2" onClick={clearUsers}>Clear</button>
+                    <button className="btn btn-block btn-light my-3" onClick={clearUsers}>Clear</button>
                 )}
 
             </div>

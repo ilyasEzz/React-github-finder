@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import User from './User'
 
-const UserItem = ({ user: { login, avatar_url, html_url } }) => {
+const UserItem = ({ user: { login, avatar_url } }) => {
 
 
     return (
@@ -13,7 +12,7 @@ const UserItem = ({ user: { login, avatar_url, html_url } }) => {
             </div>
             <div className="card-body">
                 <p>{login}</p>
-                <Link className="btn btn-dark" to={`/User/${login}`} >Learn More</Link>
+                <Link className="btn btn-success" to={`/User/${login}`} >Learn More</Link>
             </div>
         </div>
     )
