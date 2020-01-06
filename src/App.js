@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from "axios";
 
@@ -69,8 +69,6 @@ class App extends Component {
       `https://api.github.com/users/${user}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`
     );
 
-    console.log(res.data);
-
     this.setState({ repos: res.data, loading: false })
   }
 
@@ -79,25 +77,21 @@ class App extends Component {
     const { users, user, repos, loading } = this.state
     return (
       <Router>
-        <Fragment>
-          <Navbar />
-          <Switch>
-            <Route exact path="/" render={props => (
-              <div className="container">
-                {this.state.showAlert && (<Alert />)}
+        <Navbar />
+        <Switch>
+          <Route exact path="/" render={props => (
+            <div className="container">
+              {this.state.showAlert && (<Alert />)}
 
-                <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={users.length > 0 ? true : false} />
-                <Users users={users} loading={loading} />
-              </div>
-            )} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/user/:login" render={props => (
-              <User getUser={this.getUser} getRepos={this.getRepos} loading={loading} user={user} repos={repos} {...props} />
-            )} />
-          </Switch>
-
-
-        </Fragment>
+              <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={users.length > 0 ? true : false} />
+              <Users users={users} loading={loading} />
+            </div>
+          )} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/user/:login" render={props => (
+            <User getUser={this.getUser} getRepos={this.getRepos} loading={loading} user={user} repos={repos} {...props} />
+          )} />
+        </Switch>
       </Router>
     );
   }

@@ -6,7 +6,7 @@ const Repos = ({ repos }) => {
     return (
         <ul className="list-group my-4">
             {repos.map(repo => (
-                <li className="list-group-item">
+                <li key={repo.id} className="list-group-item">
                     <a className="font-weight-bold text-success" href={repo.html_url} target="blank">{repo.name}</a>
                 </li>
             ))}

@@ -65,7 +65,7 @@ class User extends Component {
                                     <p>{bio}</p>
                                 </Fragment>
                             )}
-                            <a href={html_url} className=" btn btn-success m-2">Visit Profile</a>
+                            <a href={html_url} target='blank' className=" btn btn-success m-2">Visit Profile</a>
                             <ul className="list-group m-2">
                                 {login && (
                                     <li className="list-group-item">
