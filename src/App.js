@@ -9,6 +9,8 @@ import Alert from './components/layout/Alert';
 import About from './components/pages/About';
 import User from './components/users/User';
 
+import GithubState from './components/context/github/GithubState';
+
 const App = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,23 +64,25 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" render={props => (
-          <div className="container">
-            {showAlert && (<Alert />)}
+    <GithubState>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" render={props => (
+            <div className="container">
+              {showAlert && (<Alert />)}
 
-            <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} />
-            <Users users={users} loading={loading} />
-          </div>
-        )} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/user/:login" render={props => (
-          <User getUser={getUser} getRepos={getRepos} loading={loading} user={user} repos={repos} {...props} />
-        )} />
-      </Switch>
-    </Router>
+              <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} />
+              <Users users={users} loading={loading} />
+            </div>
+          )} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/user/:login" render={props => (
+            <User getUser={getUser} getRepos={getRepos} loading={loading} user={user} repos={repos} {...props} />
+          )} />
+        </Switch>
+      </Router>
+    </GithubState>
   );
 }
 
