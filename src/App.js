@@ -18,26 +18,8 @@ const App = () => {
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
 
-  // Using the Search bar
-  const searchUsers = async text => {
-    if (text !== '') {
-      setLoading(true);
-      setAlert(false);
-
-      const res = await axios.get(
-        `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`
-      )
-
-      setUsers(res.data.items);
-      setLoading(false);
-    }
-    else {
-      setAlert(true);
-      setTimeout(() => setAlert(false), 5000);
-    }
-  }
-
   const clearUsers = () => setUsers([]);
+
 
   // Get information about the user
   const getUser = async user => {
@@ -72,7 +54,7 @@ const App = () => {
             <div className="container">
               {showAlert && (<Alert />)}
 
-              <Search searchUsers={searchUsers} clearUsers={clearUsers} showClear={users.length > 0 ? true : false} />
+              <Search clearUsers={clearUsers} showClear={users.length > 0 ? true : false} />
               <Users users={users} loading={loading} />
             </div>
           )} />
