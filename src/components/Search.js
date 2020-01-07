@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 
 import GithubContext from './context/github/githubContext'
-import Users from './users/Users';
 
 const Search = () => {
     // Local State
