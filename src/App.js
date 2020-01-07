@@ -12,26 +12,11 @@ import User from './components/users/User';
 import GithubState from './components/context/github/GithubState';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAlert, setAlert] = useState(false);
-  const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
 
-  const clearUsers = () => setUsers([]);
 
-
-  // Get information about the user
-  const getUser = async user => {
-    setLoading(true);
-
-    const res = await axios.get(
-      `https://api.github.com/users/${user}?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`
-    );
-
-    setUser(res.data);
-    setLoading(false);
-  }
 
   // get the latest repositories of the user
   const getRepos = async user => {
@@ -54,13 +39,13 @@ const App = () => {
             <div className="container">
               {showAlert && (<Alert />)}
 
-              <Search clearUsers={clearUsers} showClear={users.length > 0 ? true : false} />
-              <Users users={users} loading={loading} />
+              <Search />
+              <Users />
             </div>
           )} />
           <Route exact path="/about" component={About} />
           <Route exact path="/user/:login" render={props => (
-            <User getUser={getUser} getRepos={getRepos} loading={loading} user={user} repos={repos} {...props} />
+            <User getRepos={getRepos} loading={loading} repos={repos} {...props} />
           )} />
         </Switch>
       </Router>

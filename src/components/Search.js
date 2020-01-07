@@ -1,18 +1,22 @@
 import React, { useState, useContext } from 'react'
-import PropTypes from 'prop-types'
 
 import GithubContext from './context/github/githubContext'
+import Users from './users/Users';
 
-const Search = ({ clearUsers, showClear }) => {
-    const githubContext = useContext(GithubContext);
-
+const Search = () => {
+    // Local State
     const [text, setText] = useState('');
 
+    // Context
+    const githubContext = useContext(GithubContext);
+    const { users, searchUsers, clearUsers } = githubContext;
+
+    // Local Functions
     const onChange = (e) => setText(e.target.value);
 
     const onSubmit = (e) => {
         e.preventDefault();
-        githubContext.searchUsers(text);
+        searchUsers(text);
         setText('');
     }
     return (
@@ -23,16 +27,12 @@ const Search = ({ clearUsers, showClear }) => {
                 </div>
                 <input type="submit" value="Search" className="btn btn-block btn-primary" />
             </form>
-            {showClear && (
+            {users.length > 0 && (
                 <button className="btn btn-block btn-light my-3" onClick={clearUsers}>Clear</button>
             )}
         </div>
     )
 }
 
-Search.propTypes = {
-    clearUsers: PropTypes.func.isRequired,
-    showClear: PropTypes.bool.isRequired,
-}
 
 export default Search
